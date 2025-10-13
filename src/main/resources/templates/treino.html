@@ -101,6 +101,37 @@
             background-color: #555;
         }
 
+        .fixed {
+            position: fixed;
+            bottom: 10px;
+            /* distância do rodapé */
+            right: 10px;
+            /* distância da lateral direita */
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            /* garante que fique acima de outros elementos */
+        }
+
+        .fixed button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .fixed button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 5px;
+            font-weight: bold;
+        }
 
 
         button {
@@ -127,6 +158,23 @@
         }
     </style>
     <script>
+        //      const checkboxes = document.querySelectorAll('.exercicio-checkbox');
+        // const btn = document.getElementById('btnConcluir');
+        // const msg = document.getElementById('message');
+
+        // checkboxes.forEach(cb => {
+        //     cb.addEventListener('change', () => {
+        //         const allChecked = Array.from(checkboxes).every(c => c.checked);
+        //         btn.disabled = !allChecked;
+        //     });
+        // });
+
+        // btn.addEventListener('click', () => {
+        //     document.querySelectorAll('.card').forEach(card => {
+        //         card.style.display = 'none';
+        //     });
+        //     msg.innerText = "🎉 Treino concluído com sucesso!";
+        // });
         function concluirTreino() {
             const checkboxes = document.querySelectorAll('.card input[type="checkbox"]');
             const total = checkboxes.length;
@@ -135,10 +183,22 @@
             checkboxes.forEach(cb => { if (cb.checked) concluidos++; });
 
             if (concluidos === total) {
-                document.getElementById('message').innerText = 'Parabéns! Treino de ' +
-                    document.querySelector('h1').innerText.replace('Treino de ', '') + ' concluído!';
+                treinoConcluido = true; // marca como concluído
+
+                document.getElementById('message').innerText =
+                    '🎉 Parabéns! Você concluiu todos os ' + total + ' exercícios do dia!';
+
+                // Esconde os cards após concluir
+                document.querySelectorAll('.card').forEach(card => {
+                    card.style.display = 'none';
+                });
+
+                // Atualiza o texto final com 6/6
+                document.getElementById('progresso').innerText =
+                    'Você completou ' + total + ' de ' + total + ' exercícios.';
             } else {
-                document.getElementById('message').innerText = 'Você completou ' + concluidos + ' de ' + total + ' exercícios.';
+                document.getElementById('progresso').innerText =
+                    'Você completou ' + concluidos + ' de ' + total + ' exercícios.';
             }
         }
     </script>
@@ -169,7 +229,10 @@
             </div>
         </div>
     </div>
-    <button onclick="concluirTreino()">Treino Concluído</button>
+    <div class="fixed">
+        <button onclick="concluirTreino()">Treino Concluído</button>
+        <div class="message" id="progresso"></div>
+    </div>
     <div class="message" id="message"></div>
 </body>
 
