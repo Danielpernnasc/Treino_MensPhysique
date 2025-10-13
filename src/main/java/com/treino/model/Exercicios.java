@@ -101,7 +101,8 @@ public class Exercicios {
 
     public String getObservacoes() {
 
-        return observacoes;
+
+        return (observacoes == null || observacoes.isEmpty()) ? "Nenhuma" : observacoes;
 
     }
 
@@ -112,5 +113,7 @@ public class Exercicios {
         this.observacoes = observacoes;
 
     }
+
+
 
 }

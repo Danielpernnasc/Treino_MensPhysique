@@ -4,23 +4,89 @@
 <head>
     <meta charset="UTF-8" />
     <title>Treino do Dia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-top: -15px;
+            color: #555;
+            text-align: center;
+        }
+
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .card h2 {
+            font-size: 30px;
+            margin-top: 0;
+            margin-bottom: 10px;
+
+        }
+
+
+        .card p {
+            margin: 5px 0;
+            font-size: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <h1>Treino do Dia</h1>
+    <h2>
+        <span th:text="${diaNome}"></span> -
+        <span th:text="${descricaoDia}"></span>
+    </h2>
 
-    <ul>
-        <li th:each="t : ${treinos}">
-            <strong th:text="${t.nome}">Nome do exercício</strong><br />
-            Séries: <span th:text="${t.series}">0</span><br />
-            Repetições: <span th:text="${t.repeticoes}">0</span><br />
-            Descanso: <span th:text="${t.descanso}">0s</span><br />
-            Observações:
-            <span th:if="${t.observacao != null and t.observacao != ''}" th:text="${t.observacao}">Observação</span>
-            <span th:unless="${t.observacao != null and t.observacao != ''}">Nenhuma</span>
-            <hr />
-        </li>
-    </ul>
+    <div class="grid" th:each="t,iter : ${treinos}">
+        <div th:if="${t == null}" style="border:1px solid #f99;padding:8px;margin-bottom:8px;">
+            <strong>Item inválido no índice</strong> <span th:text="${iter.index}">0</span>
+        </div>
+
+        <div class="card" th:if="${t != null}">
+            <h2 th:text="${t.nome}">Nome do exercício</h2>
+            <p><strong>Séries:</strong> <span th:text="${t.series}">0</span></p>
+            <p><strong>Repetições:</strong> <span th:text="${t.repeticoes}">0</span></p>
+            <p><strong>Descanso:</strong> <span th:text="${t.descanso}">0s</span></p>
+            <p><strong>Observações:</strong>
+                <!-- getObservacao() já retorna 'Nenhuma' se vazio/null -->
+                <span th:text="${t.observacoes}">Nenhuma</span>
+            </p>
+        </div>
+    </div>
 </body>
+
+
+
 
 </html>
