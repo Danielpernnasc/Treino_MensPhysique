@@ -4,11 +4,17 @@
 <head>
     <meta charset="UTF-8" />
     <title>Treino do Dia</title>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            max-height: 100vh;
+            /* ocupa a altura total da janela */
+            overflow-y: auto;
+            /* ativa rolagem vertical */
             margin: 0;
-            padding: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
         }
 
         h1 {
@@ -58,7 +64,84 @@
                 width: 100%;
             }
         }
+
+        .card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .card-header {
+            display: flex;
+            float: right;
+            /* Nome à esquerda, checkbox à direita */
+        }
+
+        .card-header h2 {
+            margin: 0;
+        }
+
+        .exercicio-checkbox {
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+
+        .treinos-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .treinos-container::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 4px;
+        }
+
+        .treinos-container::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 15px;
+            color: #155724;
+        }
     </style>
+    <script>
+        function concluirTreino() {
+            const checkboxes = document.querySelectorAll('.card input[type="checkbox"]');
+            const total = checkboxes.length;
+            let concluidos = 0;
+
+            checkboxes.forEach(cb => { if (cb.checked) concluidos++; });
+
+            if (concluidos === total) {
+                document.getElementById('message').innerText = 'Parabéns! Treino de ' +
+                    document.querySelector('h1').innerText.replace('Treino de ', '') + ' concluído!';
+            } else {
+                document.getElementById('message').innerText = 'Você completou ' + concluidos + ' de ' + total + ' exercícios.';
+            }
+        }
+    </script>
 </head>
 
 <body>
@@ -68,22 +151,26 @@
         <span th:text="${descricaoDia}"></span>
     </h2>
 
-    <div class="grid" th:each="t,iter : ${treinos}">
-        <div th:if="${t == null}" style="border:1px solid #f99;padding:8px;margin-bottom:8px;">
-            <strong>Item inválido no índice</strong> <span th:text="${iter.index}">0</span>
-        </div>
-
-        <div class="card" th:if="${t != null}">
-            <h2 th:text="${t.nome}">Nome do exercício</h2>
-            <p><strong>Séries:</strong> <span th:text="${t.series}">0</span></p>
-            <p><strong>Repetições:</strong> <span th:text="${t.repeticoes}">0</span></p>
-            <p><strong>Descanso:</strong> <span th:text="${t.descanso}">0s</span></p>
-            <p><strong>Observações:</strong>
-                <!-- getObservacao() já retorna 'Nenhuma' se vazio/null -->
-                <span th:text="${t.observacoes}">Nenhuma</span>
-            </p>
+    <div class="treinos-container">
+        <div class="grid" th:each="t : ${treinos}">
+            <div class="card">
+                <div class="card-header">
+                    <input type="checkbox" class="exercicio-checkbox" />
+                </div>
+                <h2 th:text="${t.nome}">Nome do exercício</h2>
+                <p><strong>Séries:</strong> <span th:text="${t.series}">0</span></p>
+                <p><strong>Repetições:</strong> <span th:text="${t.repeticoes}">0</span></p>
+                <p><strong>Descanso:</strong> <span th:text="${t.descanso}">0s</span></p>
+                <p><strong>Observações:</strong>
+                    <span th:if="${t.observacoes != null and !#strings.isEmpty(t.observacoes)}"
+                        th:text="${t.observacoes}">Observação</span>
+                    <span th:unless="${t.observacoes != null and !#strings.isEmpty(t.observacoes)}">Nenhuma</span>
+                </p>
+            </div>
         </div>
     </div>
+    <button onclick="concluirTreino()">Treino Concluído</button>
+    <div class="message" id="message"></div>
 </body>
 
 
