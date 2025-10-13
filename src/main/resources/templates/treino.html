@@ -1,12 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8" />
-    <title></title>
+    <title>Treino do Dia</title>
 </head>
+
 <body>
-<p>
-    <span th:text="${treino}">Hello!</span>
-</p>
+    <h1>Treino do Dia</h1>
+
+    <ul>
+        <li th:each="t : ${treinos}">
+            <strong th:text="${t.nome}">Nome do exercício</strong><br />
+            Séries: <span th:text="${t.series}">0</span><br />
+            Repetições: <span th:text="${t.repeticoes}">0</span><br />
+            Descanso: <span th:text="${t.descanso}">0s</span><br />
+            Observações:
+            <span th:if="${t.observacao != null and t.observacao != ''}" th:text="${t.observacao}">Observação</span>
+            <span th:unless="${t.observacao != null and t.observacao != ''}">Nenhuma</span>
+            <hr />
+        </li>
+    </ul>
 </body>
+
 </html>
