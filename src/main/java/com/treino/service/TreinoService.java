@@ -2,101 +2,89 @@ package com.treino.service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
 import com.treino.model.Exercicios;
+import com.treino.model.TrainClassicPhysique;
+import com.treino.model.TrainMensPhysique;
+import com.treino.model.TrainNatural;
+import com.treino.model.TrainOPEN;
+import com.treino.model.Treino;
 
 
 
 @Service
-public class TreinoService {  
-
-    
-    private Map<String, List<Exercicios>> treinos = new HashMap<>();
-
-    {
-        treinos.put("Segunda", Arrays.asList(
-            new Exercicios("Supino Reto barra", 4, "8-10", "90s", "Manter os pés no chão e a coluna neutra."),
-            new Exercicios("Supino Inclinado halteres", 4, "10-12", "75s", "Controlar a descida dos halteres."),
-            new Exercicios("Crossover polia alta", 3, "12-15", "60s", "Evitar sobrecarga nos ombros."),
-            new Exercicios("Mergulho paralelas", 3, "10-12", "75s", "Manter o tronco levemente inclinado para frente."),
-            new Exercicios("Tríceps testa barra W", 3, "10-12", "75s", "Evitar hiperextensão dos cotovelos."),
-            new Exercicios("Tríceps corda polia alta", 3, "12-15", "60s", "Manter os cotovelos fixos ao lado do corpo.")
-        ));
-
-        treinos.put("Terça", Arrays.asList(
-            new Exercicios("Puxada frente pegada aberta", 4,"10-12", "90", "Pegar nas ates inclinar o tronco para trás e puxar contra o peito"),
-            new Exercicios("Remada curvada com barra", 4, "8-10", "90s", "Manter a coluna neutra durante o movimento."),
-            new Exercicios("Remada unilateral com halteres", 3, "10-12", "75s", "Evitar girar o tronco durante o movimento."),
-            new Exercicios("Rosca direta barra reta", 3, "10", "60s", "Manter os cotovelos fixos ao lado do corpo."),
-            new Exercicios("Rosca alternada c/ rotação", 3, "12", "60s", "Controlar a descida dos halteres."),
-            new Exercicios("Rosca martelo", 2, "15", "45s", "Manter os punhos neutros durante o movimento.")
-        ));
+public class TreinoService implements Treino {  
 
 
-        treinos.put("Quarta", Arrays.asList(
-            new Exercicios("Descanso total ou outra atividade", 0, "", "", "Cross fit a noite")
-        ));
+    private final TrainMensPhysique trainMensPhysique = new TrainMensPhysique();
 
-        treinos.put("Quinta", Arrays.asList(
-          new Exercicios("Cardio leve/moderado 30-45 min", 0, "", "", ""),
-          new Exercicios("Abdominal infra banco", 3, "20", "45s", "Deitar no cochonete com as maos na cabeça elevar o tronco na cotra a pernas flexionadas"),
-          new Exercicios("Prancha", 3, "45s", "45s", "Posição de ponte com apoio dos contovelos e o gluteo enpinado"),
-          new Exercicios("Abdominal lateral oblíquo", 3, "15 cada lado", "45s", "Elevar o tronco para a direita e para a esquerda")
-        ));
+    private final TrainClassicPhysique trainClassicPhysique = new TrainClassicPhysique();
 
-        treinos.put("Sexta", Arrays.asList(
-            new Exercicios("Cadeira flexora", 4, "12", "60s", "Sentar na cadeixar e baixar os tornozelos com peso"),
-            new Exercicios("Stiff halteres", 4, "10–12", "90s", "Juntar os pes abrir os calcanhares e depois as ponta do pes. Depois so descer"),
-            new Exercicios("Agachamento livre/smith", 3, "8–10", "90s", "Barra no trapézio, descer até 90 graus e subir"),
-            new Exercicios("Leg press", 3, "12", "75s", "Sentado no legPress e empurrar a plataforma com os calcanhares"),
-            new Exercicios("Cadeira extensora", 3, "15", "60s", "Levantar os tornozelos com pesos sentando na cadeira"),
-            new Exercicios("Panturrilha em pé", 4, "20", "45s", "elevação da panturrilhas")
-        ));
+    private final TrainOPEN trainOPEN = new TrainOPEN();
 
-        treinos.put("Sábado", Arrays.asList(
-            new Exercicios("Desenvolvimento halteres", 4, "8–10", "90s", "Levantar os pesos sobre a cabeça"),
-            new Exercicios("Elevação lateral", 4, "12–15", "60s", "Levantar os pesos com os braços levemente flexionados na lateral"),
-            new Exercicios("Elevação frontal alternada", 3, "12", "60s", "Levantar os peso com os braços esticados"),
-            new Exercicios("Crucifixo invertido", 3, "15", "60s", "sentar da maquina e abrir os braços"),
-            new Exercicios("Encolhimento halteres", 3, "12–15", "60s", "com os halteres so encolher os ombros")
-        ));
-
-        treinos.put("Domingo", Arrays.asList(
-            new Exercicios("Descanso", 0, "", "", "tire o dia para descansar ou fazer alguma atividade leve com caminhada no parque ou praça")
-        ));
+    private final TrainNatural trainNatural = new TrainNatural();
 
 
+    public final void oTreinoMP(){
+        Map<String, List<Exercicios>> treinoMap = trainMensPhysique.getTrainMensPhysique();
+        if (treinoMap != null) {
+            treinoMap.forEach((day, exercises) -> treinos.put(day, exercises));
+        }
+        System.out.println("Treinos carregados: " + trainMensPhysique.getTrainMensPhysique());
         
     }
 
-  
+    public final void oTrainCP(){
+        Map<String, List<Exercicios>> treinoMap = trainClassicPhysique.getTrainClassicPhysique();
+        if(treinoMap != null){
+            treinoMap.forEach((day, exercises) -> treinos.put(day, exercises));
+        }
+        System.out.println("Treinos carregados: " + trainClassicPhysique.getTrainClassicPhysique());
+    }
+
+    public final void oTrainOPEN(){
+        Map<String, List<Exercicios>> treinoMap = trainOPEN.getTrainOPEN();
+        if(treinoMap != null){
+            treinoMap.forEach((day, exercises) -> treinos.put(day, exercises));
+        }
+        System.out.println("Treinos carregados: " + trainOPEN.getTrainOPEN());
+    }
+
+    public final void oTrainNatural(){
+        Map<String, List<Exercicios>> treinoMap = trainNatural.getTrainNatural();
+        if(treinoMap != null){
+            treinoMap.forEach((day, exercises) -> treinos.put(day, exercises));
+        }
+        System.out.println("Treinos carregados: " + trainNatural.getTrainNatural());
+    }
+
+ 
 
     public List<Exercicios> getTreinoDoDia() {
         DayOfWeek diaSemana = LocalDate.now().getDayOfWeek();
-        String dia = diaSemana.toString().substring(0, 1).toUpperCase() + diaSemana.toString().substring(1).toLowerCase();
+        String dia = converterDia(diaSemana); // usa o método que converte para "Segunda", "Terça"...
         List<Exercicios> treinoDoDia = treinos.get(dia);
         return treinoDoDia != null ? treinoDoDia : Collections.emptyList();
     }
 
-
-    private String converterDia(DayOfWeek diaSemana) {
-        switch (diaSemana) {
-            case MONDAY: return "Segunda";
-            case TUESDAY: return "Terça";
-            case WEDNESDAY: return "Quarta";
-            case THURSDAY: return "Quinta";
-            case FRIDAY: return "Sexta";
-            case SATURDAY: return "Sábado";
-            case SUNDAY: return "Domingo";
-            default: return "";
-        }
+    public String converterDia(DayOfWeek diaSemana) {
+        return switch (diaSemana) {
+            case MONDAY -> "Segunda";
+            case TUESDAY -> "Terça";
+            case WEDNESDAY -> "Quarta";
+            case THURSDAY -> "Quinta";
+            case FRIDAY -> "Sexta";
+            case SATURDAY -> "Sábado";
+            case SUNDAY -> "Domingo";
+        };
     }
+
+
+
     
 }

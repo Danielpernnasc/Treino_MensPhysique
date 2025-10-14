@@ -20,9 +20,13 @@ public class Exercicios {
     public int getSeries() { return series; }
     public String getRepeticoes() { return repeticoes; }
     public String getDescanso() { return descanso; }
-
-    // Retorna "Nenhuma" se null ou vazio
     public String getObservacao() {
         return (observacao == null || observacao.isEmpty()) ? "Nenhuma" : observacao;
     }
+
+    public void setNome(String nome) { this.nome = nome; }
+    public void setSeries(int series) { this.series = series; }
+    public void setRepeticoes(String repeticoes) { this.repeticoes = repeticoes; }
+    public void setDescanso(String descanso) { this.descanso = descanso; }
+    public void setObservacao(String observacao) { this.observacao = observacao; }
 }
