@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.treino.model.Exercicios;
 import com.treino.model.TrainClassicPhysique;
 import com.treino.model.TrainMensPhysique;
+import com.treino.model.TrainNaturalPhysique;
 import com.treino.model.TrainOpenPhysique;
 import com.treino.model.Treinos;
 
@@ -22,6 +23,20 @@ public class TreinoService implements Treinos  {
     private final TrainMensPhysique trainMensPhysique = new TrainMensPhysique();
     private final TrainClassicPhysique trainClassicPhysique = new TrainClassicPhysique();
     private final TrainOpenPhysique trainOpenPhysique = new TrainOpenPhysique();
+    private final TrainNaturalPhysique trainNaturalPhysique = new TrainNaturalPhysique();
+
+    public TrainMensPhysique getMP() {
+        return trainMensPhysique;
+    }
+    public TrainClassicPhysique getCP() {
+        return trainClassicPhysique;
+    }
+    public TrainOpenPhysique getOP() {
+        return trainOpenPhysique;
+    }
+    public TrainNaturalPhysique getNP() {
+        return trainNaturalPhysique;
+    }
 
     public List<Exercicios> gettrainMP(){
          Map<String, List<Exercicios>> treinoMap = trainMensPhysique.initializeTrainMensPhisique();
@@ -31,6 +46,7 @@ public class TreinoService implements Treinos  {
         System.out.println("Treinos carregados: " + trainMensPhysique.initializeTrainMensPhisique());
         return new ArrayList<>(treinos.values().stream().findFirst().orElse(Collections.emptyList()));
     }
+
 
     public List<Exercicios> gettrainCP(){
         Map<String, List<Exercicios>> treinoMap = trainClassicPhysique.getTrainClassicPhysique();
@@ -43,6 +59,14 @@ public class TreinoService implements Treinos  {
 
     public List<Exercicios> gettrainOP(){
         Map<String, List<Exercicios>> treinoMap = trainOpenPhysique.initializeTrainOpen();
+        if (treinoMap != null) {
+            treinoMap.forEach((day, exercises) -> treinos.put(day, exercises));
+        }   
+        return new ArrayList<>(treinos.values().stream().findFirst().orElse(Collections.emptyList()));
+    }
+
+    public List<Exercicios> gettrainNP(){
+        Map<String, List<Exercicios>> treinoMap = trainNaturalPhysique.initializeTrainNaturalPhysique();
         if (treinoMap != null) {
             treinoMap.forEach((day, exercises) -> treinos.put(day, exercises));
         }   
@@ -81,16 +105,6 @@ public class TreinoService implements Treinos  {
         return converterDia(LocalDate.now().getDayOfWeek());
     }
 
-    // public TreinoService() {
-    //     // ... seu código já existente que preenche treinos ...
-    //     descricaoDia.put("Segunda", "Dia de Peito");
-    //     descricaoDia.put("Terça", "Costas e Bíceps");
-    //     descricaoDia.put("Quarta", "Descanso / Cardio leve");
-    //     descricaoDia.put("Quinta", "Abdômen e Core");
-    //     descricaoDia.put("Sexta", "Pernas");
-    //     descricaoDia.put("Sábado", "Ombros e Trapézio");
-    //     descricaoDia.put("Domingo", "Descanso");
-    // }
 
     public String getDescricaoDoDia() {
         String dia = converterDia(LocalDate.now().getDayOfWeek());

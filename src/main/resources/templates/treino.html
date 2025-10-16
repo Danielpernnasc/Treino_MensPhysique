@@ -41,6 +41,7 @@
             top: 0;
             z-index: 100;
             width: 100%;
+            margin-left: -20px;
         }
 
         nav ul {
@@ -270,7 +271,7 @@
                     Physique</a></li>
             <li><a th:href="@{/trainopenPhysique}" th:classappend="${selectedTipo == 'Open'} ? ' active' : ''"
                     class="nav-link">Open</a></li>
-            <li><a th:href="@{/trainNatural}" th:classappend="${selectedTipo == 'Natural'} ? ' active' : ''"
+            <li><a th:href="@{/trainNaturalPhysique}" th:classappend="${selectedTipo == 'Natural'} ? ' active' : ''"
                     class="nav-link">Natural</a></li>
         </ul>
     </nav>

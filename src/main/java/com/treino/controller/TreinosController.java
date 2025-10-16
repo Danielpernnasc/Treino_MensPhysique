@@ -16,7 +16,6 @@ import com.treino.service.TreinoService;
 @Controller
 public class TreinosController {
     private final TreinoService treinoService;
-
     @Autowired
     public TreinosController(TreinoService treinoService) {
         this.treinoService = treinoService;
@@ -24,23 +23,24 @@ public class TreinosController {
 
 
 
-   @RequestMapping(value = "/trainMensPhysique", method = RequestMethod.GET)
+    @RequestMapping(value = "/trainMensPhysique", method = RequestMethod.GET)
     public String treinoMP(Model model) {
-        List<Exercicios> lista = treinoService.gettrainMP();
+        treinoService.getMP().initializeTrainMensPhisique(); // carrega o treino correto
+        List<Exercicios> lista = treinoService.getTreinoDoDia(); // treino do dia
         if (lista == null) {
             lista = Collections.emptyList();
         } else {
             lista.removeIf(Objects::isNull);
         }
         rotineExercise(model, lista);
-
-        // Ensure the method always returns a value
+    
         return "treino";
     }
 
     @RequestMapping(value = "/trainClassicPhysique", method = RequestMethod.GET)
     public String treinoCP(Model model) {
-        List<Exercicios> lista = treinoService.gettrainCP();
+        treinoService.getCP().getTrainClassicPhysique(); // carrega o treino correto
+        List<Exercicios> lista = treinoService.getTreinoDoDia(); // treino do dia
         if (lista == null) {
             lista = Collections.emptyList();
         } else {
@@ -53,7 +53,8 @@ public class TreinosController {
 
     @RequestMapping(value = "/trainopenPhysique", method = RequestMethod.GET)
     public String treinoOP(Model model) {
-        List<Exercicios> lista = treinoService.gettrainOP();
+        treinoService.getOP().initializeTrainOpen(); // carrega o treino correto
+        List<Exercicios> lista = treinoService.getTreinoDoDia(); // treino do dia
         if (lista == null) {
             lista = Collections.emptyList();
         } else {
@@ -64,19 +65,21 @@ public class TreinosController {
         return "treino";
     }
 
-    // @RequestMapping(value = "/NaturalBodybuilding", method = RequestMethod.GET)
-    // public String treinoNB(Model model) {
-    //     List<Exercicios> lista = treinoService.gettrainNB();
-    //     if (lista == null) {
-    //         lista = Collections.emptyList();
-    //     } else {
-    //         lista.removeIf(Objects::isNull);
-    //     }
-    //     rotineExercise(model, lista);
+    @RequestMapping(value = "/trainNaturalPhysique", method = RequestMethod.GET)
+    public String treinoNP(Model model) {
+       treinoService.getNP().initializeTrainNaturalPhysique();
+        List<Exercicios> lista = treinoService.getTreinoDoDia(); // treino do dia
+        if (lista == null) {
+            lista = Collections.emptyList();
+        } else {
+            lista.removeIf(Objects::isNull);
+        }
+        rotineExercise(model, lista);
 
-    //     return "treino";
-    // }
+        return "treino";
+    }
 
+   
 
     public void rotineExercise(Model model, List<Exercicios> lista) {
             String diaNome = treinoService.getDiaNome(); 
