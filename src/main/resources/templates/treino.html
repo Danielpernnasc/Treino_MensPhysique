@@ -12,13 +12,14 @@
             overflow-y: auto;
             /* ativa rolagem vertical */
             margin: 0;
-            padding: 20px;
+            padding: 60px 20px 20px 20px;
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
         }
 
         h1 {
             text-align: center;
+            margin-top: 50px;
             margin-bottom: 30px;
         }
 
@@ -26,6 +27,59 @@
             margin-top: -15px;
             color: #555;
             text-align: center;
+        }
+
+        /* NAV */
+        nav {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(2, 6, 23, 0.6);
+            position: fixed;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 8px;
+        }
+
+        nav li {
+            display: inline-block;
+        }
+
+        /* botões do nav */
+        .nav-link {
+            display: inline-block;
+            padding: 10px 16px;
+            border-radius: 12px;
+            color: var(--muted);
+            font-weight: 600;
+            text-decoration: none;
+            transition: all .18s ease;
+            border: 1px solid transparent;
+            backdrop-filter: blur(6px);
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            color: var(--white);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+            border-color: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-link.active {
+            color: #0b1220;
+            background: linear-gradient(90deg, var(--accent), #ff8a34);
+            box-shadow: 0 8px 30px rgba(255, 140, 52, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .grid {
@@ -205,6 +259,21 @@
 </head>
 
 <body>
+    <nav>
+        <ul>
+            <!-- links com query param 'tipo' para o servidor renderizar -->
+            <li><a th:href="@{/trainMensPhysique}" th:classappend="${selectedTipo == 'MensPhysique'} ? ' active' : ''"
+                    class="nav-link">Mens
+                    Physique</a></li>
+            <li><a th:href="@{/trainClassicPhysique}"
+                    th:classappend="${selectedTipo == 'ClassicPhysique'} ? ' active' : ''" class="nav-link">Classic
+                    Physique</a></li>
+            <li><a th:href="@{/trainopenPhysique}" th:classappend="${selectedTipo == 'Open'} ? ' active' : ''"
+                    class="nav-link">Open</a></li>
+            <li><a th:href="@{/trainNatural}" th:classappend="${selectedTipo == 'Natural'} ? ' active' : ''"
+                    class="nav-link">Natural</a></li>
+        </ul>
+    </nav>
     <h1>Treino do Dia</h1>
     <h2>
         <span th:text="${diaNome}"></span> -
