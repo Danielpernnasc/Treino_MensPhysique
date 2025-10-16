@@ -22,6 +22,11 @@ public class TreinosController {
     }
 
 
+    @RequestMapping(value = {"/", "/home", "/treino"}, method = RequestMethod.GET)
+    public String home() {
+        return "redirect:/trainMensPhysique"; // ou /trainClassicPhysique etc.
+    }
+
 
     @RequestMapping(value = "/trainMensPhysique", method = RequestMethod.GET)
     public String treinoMP(Model model) {
