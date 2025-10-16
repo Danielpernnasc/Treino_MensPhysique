@@ -1,21 +1,19 @@
-# ====== Etapa de build ======
-FROM maven:3.9.9-eclipse-temurin-17 AS build
+# ====== Build (JDK 8) ======
+FROM maven:3.9.6-eclipse-temurin-8 AS build
 WORKDIR /app
 COPY . .
 RUN mvn -DskipTests package
 
-# ====== Etapa de runtime (leve) ======
-FROM eclipse-temurin:17-jre
+# ====== Runtime (JRE 8) ======
+FROM openjdk:8-jre-slim
 WORKDIR /app
-# copia o JAR gerado (qualquer nome) para app.jar
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /app/target/shape_v-1.0-SNAPSHOT.jar app.jar
 
-# Koyeb injeta a porta em $PORT
+# Koyeb define a porta em $PORT
 ENV PORT=8080
 EXPOSE 8080
 
-# memória mais contida para Free Instance
+# Limites mais modestos pra Free Instance
 ENV JAVA_TOOL_OPTIONS="-Xms128m -Xmx384m -XX:+UseContainerSupport"
 
-# Start
-CMD ["sh","-c","java -Dserver.port=$PORT -jar app.jar"]
+CMD ["sh", "-c", "java -Dserver.port=$PORT -jar app.jar"]
