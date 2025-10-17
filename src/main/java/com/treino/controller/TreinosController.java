@@ -38,7 +38,9 @@ public class TreinosController {
             lista.removeIf(Objects::isNull);
         }
         rotineExercise(model, lista);
-    
+        String tipoTreino = treinoService.trainingDescriptionFor("MensPhysique");
+        model.addAttribute("descricaoTreino", tipoTreino);
+        model.addAttribute("selectedTipo", "MensPhysique");
         return "treino";
     }
 
@@ -52,7 +54,9 @@ public class TreinosController {
             lista.removeIf(Objects::isNull);
         }
         rotineExercise(model, lista);
-
+        String tipoTreino = treinoService.trainingDescriptionFor("ClassicPhysique");
+        model.addAttribute("descricaoTreino", tipoTreino);
+        model.addAttribute("selectedTipo", "ClassicPhysique");
         return "treino";
     }
 
@@ -66,7 +70,9 @@ public class TreinosController {
             lista.removeIf(Objects::isNull);
         }
         rotineExercise(model, lista);
-
+        String tipoTreino = treinoService.trainingDescriptionFor("OpenPhysique");
+        model.addAttribute("descricaoTreino", tipoTreino);
+        model.addAttribute("selectedTipo", "Open");
         return "treino";
     }
 
@@ -80,7 +86,10 @@ public class TreinosController {
             lista.removeIf(Objects::isNull);
         }
         rotineExercise(model, lista);
-
+       
+        String tipoTreino = treinoService.trainingDescriptionFor("NaturalPhysique");
+        model.addAttribute("descricaoTreino", tipoTreino);
+        model.addAttribute("selectedTipo", "Natural");
         return "treino";
     }
 
@@ -89,7 +98,8 @@ public class TreinosController {
     public void rotineExercise(Model model, List<Exercicios> lista) {
             String diaNome = treinoService.getDiaNome(); 
             String descricao = treinoService.getDescricaoDoDia();
-        
+          
+
             model.addAttribute("treinos", lista);
             model.addAttribute("diaNome", diaNome);
             model.addAttribute("descricaoDia", descricao);

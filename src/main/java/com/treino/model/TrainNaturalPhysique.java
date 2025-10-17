@@ -7,6 +7,7 @@ import java.util.Map;
 public class TrainNaturalPhysique implements Treinos{
 
     public final Map<String, List<Exercicios>> initializeTrainNaturalPhysique() {
+        itsTrain();
         rotineTrainNatural();
         treinos.put("Segunda", Arrays.asList(
             new Exercicios("Barra fixa ou puxada alta", 4, "10", "90s", "Foco na contração máxima."),
@@ -60,6 +61,8 @@ public class TrainNaturalPhysique implements Treinos{
         ));
         return treinos; // Retornar o mapa de treinos
     }
+
+ 
 
     public void rotineTrainNatural() {
         descricaoDia.put("Segunda", "Costas + Glúteo Médio + Abdômen");	

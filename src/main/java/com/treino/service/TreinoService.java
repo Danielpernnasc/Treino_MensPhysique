@@ -19,11 +19,15 @@ import com.treino.model.Treinos;
 
 @Service
 public class TreinoService implements Treinos  {
+
+
         
     private final TrainMensPhysique trainMensPhysique = new TrainMensPhysique();
+
     private final TrainClassicPhysique trainClassicPhysique = new TrainClassicPhysique();
     private final TrainOpenPhysique trainOpenPhysique = new TrainOpenPhysique();
     private final TrainNaturalPhysique trainNaturalPhysique = new TrainNaturalPhysique();
+    
 
     public TrainMensPhysique getMP() {
         return trainMensPhysique;
@@ -110,4 +114,34 @@ public class TreinoService implements Treinos  {
         String dia = converterDia(LocalDate.now().getDayOfWeek());
         return descricaoDia.getOrDefault(dia, "");
     }
-}
+
+
+
+    
+    public String trainingDescriptionFor(String trainingType) {
+        switch (trainingType) {
+            case "MensPhysique":
+                trainMensPhysique.itsTrain();
+                descricaoTreino.put("Tipo de Treino", "Mens Physique");
+                return "Mens Physique";
+            case "ClassicPhysique":
+                trainClassicPhysique.itsTrain();
+                descricaoTreino.put("Tipo de Treino", "Classic Physique");
+                return "Classic Physique";
+            case "OpenPhysique":
+                trainOpenPhysique.itsTrain();
+                descricaoTreino.put("Tipo de Treino", "Open Physique");
+                return "Open Physique";
+            case "NaturalPhysique":
+                trainNaturalPhysique.itsTrain();
+                descricaoTreino.put("Tipo de Treino", "Natural Physique");
+                return "Natural Physique";
+            default:
+                throw new IllegalStateException("Unexpected training type: " + trainingType);
+        }
+    }
+    
+    }
+
+
+

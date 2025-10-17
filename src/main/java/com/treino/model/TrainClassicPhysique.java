@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class TrainClassicPhysique implements Treinos {
      public Map<String, List<Exercicios>> getTrainClassicPhysique()  {
-        
+        itsTrain();
         rotineTrainclassicPhysique();
         treinos.put("Segunda", Arrays.asList(
             new Exercicios("Supino reto barra", 4, "8-10", "90s", "1ª leve, últimas 2 até falha."),

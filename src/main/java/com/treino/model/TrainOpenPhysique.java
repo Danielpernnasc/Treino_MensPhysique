@@ -7,6 +7,7 @@ import java.util.Map;
 public class TrainOpenPhysique implements Treinos {
 
     public final Map<String, List<Exercicios>> initializeTrainOpen(){
+        itsTrain();
         rotineTrainOPEN();
         treinos.put("Segunda", Arrays.asList(
             new Exercicios("Supino inclinado com halteres", 4, "8-10", "90s", "Foco na contração máxima."),

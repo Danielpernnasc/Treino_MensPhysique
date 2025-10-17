@@ -2,214 +2,283 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
+
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Treino do Dia</title>
 
     <style>
-        body {
-            max-height: 100vh;
-            /* ocupa a altura total da janela */
-            overflow-y: auto;
-            /* ativa rolagem vertical */
-            margin: 0;
-            padding: 60px 20px 20px 20px;
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+        html {
+            font-size: 18px;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
         }
 
+        body {
+            font-family: system-ui, Arial, sans-serif;
+        }
+
+        /* Títulos maiores */
         h1 {
+            font-size: 2rem;
+        }
+
+        /* ~36px */
+        h2 {
+            font-size: 1.4rem;
+        }
+
+        /* ~25px */
+        .card p,
+        .nav-link {
+            font-size: 1.1rem;
+        }
+
+        /* ~20px */
+        :root {
+            --accent: #ff7a1a;
+            --muted: #334155;
+            --white: #ffffff;
+            --bg: #f5f5f5;
+            --card: #ffffff;
+
+            /* Tamanho base responsivo: entre 16 e 18px conforme a largura */
+            --fs-base: clamp(16px, 2.6vw, 18px);
+            --fs-sm: clamp(14px, 2.2vw, 16px);
+            --fs-lg: clamp(18px, 3.2vw, 22px);
+            --fs-xl: clamp(22px, 4.2vw, 30px);
+            --fs-xxl: clamp(26px, 5.2vw, 36px);
+            --radius: 12px;
+            --shadow: 0 2px 8px rgba(2, 6, 23, .12);
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            padding: 72px 16px 84px;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            font-size: var(--fs-base);
+            line-height: 1.5;
+            background: var(--bg);
+            color: #0b1220;
+            -webkit-text-size-adjust: 100%;
+            text-size-adjust: 100%;
+        }
+
+        /* ====== Cabeçalhos ====== */
+        h1 {
+            font-size: var(--fs-xxl);
             text-align: center;
-            margin-top: 50px;
-            margin-bottom: 30px;
+            margin: 16px 0 8px;
+            font-weight: 800;
         }
 
         h2 {
-            margin-top: -15px;
-            color: #555;
+            font-size: var(--fs-lg);
             text-align: center;
+            color: #475569;
+            margin: 0 0 18px;
+            font-weight: 600;
         }
 
-        /* NAV */
+        h3 {
+            font-size: var(--fs-md);
+            text-align: center;
+            color: #475569;
+            margin: 0 0 18px;
+            font-weight: 400;
+        }
+
+        /* ====== Nav fixa ====== */
         nav {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 12px 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(2, 6, 23, 0.6);
             position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
-            width: 100%;
-            margin-left: -20px;
+            backdrop-filter: blur(6px);
+            background: rgba(255, 255, 255, .75);
+            border-bottom: 1px solid rgba(2, 6, 23, .06);
+            box-shadow: var(--shadow);
+            padding: 10px 12px;
         }
 
         nav ul {
-            list-style: none;
             margin: 0;
             padding: 0;
+            list-style: none;
             display: flex;
             gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        nav li {
-            display: inline-block;
-        }
-
-        /* botões do nav */
         .nav-link {
             display: inline-block;
-            padding: 10px 16px;
-            border-radius: 12px;
-            color: var(--muted);
-            font-weight: 600;
             text-decoration: none;
-            transition: all .18s ease;
-            border: 1px solid transparent;
-            backdrop-filter: blur(6px);
+            padding: 10px 14px;
+            font-size: var(--fs-sm);
+            color: var(--muted);
+            border: 1px solid rgba(2, 6, 23, .06);
+            border-radius: 999px;
+            background: #fff;
+            transition: transform .15s ease, box-shadow .15s ease;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .nav-link:hover {
-            transform: translateY(-2px);
-            color: var(--white);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
-            border-color: rgba(255, 255, 255, 0.04);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
         }
 
         .nav-link.active {
             color: #0b1220;
             background: linear-gradient(90deg, var(--accent), #ff8a34);
-            box-shadow: 0 8px 30px rgba(255, 140, 52, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-color: transparent;
+            box-shadow: 0 8px 28px rgba(255, 138, 52, .22);
+            font-weight: 700;
         }
 
-        .grid {
+        /* ====== Menu Responsivo ====== */
+        .nav-container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
+            align-items: center;
             justify-content: center;
+            position: relative;
         }
 
-        .card {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px;
-            width: 100%;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            box-sizing: border-box;
-            text-align: center;
+        .menu-toggle {
+            display: none;
+            position: absolute;
+            left: 12px;
+            top: 6px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #111;
         }
 
-        .card h2 {
-            font-size: 30px;
-            margin-top: 0;
-            margin-bottom: 10px;
+        /* Para telas pequenas */
+        @media (max-width: 720px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                background: rgba(255, 255, 255, 0.95);
+                position: absolute;
+                top: 50px;
+                left: 0;
+                right: 0;
+                padding: 12px;
+                border-radius: 0 0 10px 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
 
-        }
+            nav ul.open {
+                display: flex;
+            }
 
-
-        .card p {
-            margin: 5px 0;
-            font-size: 30px;
-        }
-
-        @media (max-width: 600px) {
-            .card {
-                width: 100%;
+            .menu-toggle {
+                display: block;
             }
         }
 
+
+        /* ====== Grid de cartões ====== */
+        .treinos-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+        }
+
         .card {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            margin-bottom: 10px;
+            background: var(--card);
+            border: 1px solid rgba(2, 6, 23, .06);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+        }
+
+        .card h2 {
+            font-size: var(--fs-lg);
+            margin: 0 0 10px;
+        }
+
+        .card p {
+            margin: 6px 0;
+            font-size: var(--fs-base);
         }
 
         .card-header {
             display: flex;
-            float: right;
-            /* Nome à esquerda, checkbox à direita */
-        }
-
-        .card-header h2 {
-            margin: 0;
+            justify-content: flex-end;
         }
 
         .exercicio-checkbox {
+            width: 26px;
+            height: 26px;
+            /* alvo de toque maior */
+            accent-color: var(--accent);
             cursor: pointer;
-            transform: scale(1.2);
+            transform: translateZ(0);
+            /* suaviza no Android */
         }
 
-        .treinos-container::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        .treinos-container::-webkit-scrollbar-thumb {
-            background-color: #888;
-            border-radius: 4px;
-        }
-
-        .treinos-container::-webkit-scrollbar-thumb:hover {
-            background-color: #555;
-        }
-
+        /* ====== Botão flutuante ====== */
         .fixed {
             position: fixed;
-            bottom: 10px;
-            /* distância do rodapé */
-            right: 10px;
-            /* distância da lateral direita */
-            background-color: #f5f5f5;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
-            z-index: 100;
-            /* garante que fique acima de outros elementos */
+            right: 12px;
+            bottom: 12px;
+            z-index: 99;
+            background: #ffffff;
+            border: 1px solid rgba(2, 6, 23, .06);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 10px 12px;
+            min-width: 240px;
         }
 
         .fixed button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
+            width: 100%;
+            padding: 12px 14px;
+            font-size: var(--fs-base);
+            border: 0;
+            border-radius: 10px;
+            background: #16a34a;
+            color: #fff;
+            font-weight: 700;
             cursor: pointer;
         }
 
-        .fixed button:hover {
-            background-color: #45a049;
+        .fixed button:active {
+            transform: translateY(1px);
         }
 
         .message {
-            margin-top: 5px;
-            font-weight: bold;
-        }
-
-
-        button {
-            display: block;
-            margin: 20px auto;
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        .message {
+            margin-top: 8px;
             text-align: center;
-            font-size: 18px;
-            margin-top: 15px;
+            font-weight: 700;
             color: #155724;
+        }
+
+        /* ====== Ajustes para telas maiores ====== */
+        @media (min-width: 768px) {
+            body {
+                padding-left: 24px;
+                padding-right: 24px;
+            }
+
+            .nav-link {
+                font-size: var(--fs-base);
+            }
         }
     </style>
     <script>
@@ -230,6 +299,9 @@
         //     });
         //     msg.innerText = "🎉 Treino concluído com sucesso!";
         // });
+        function toggleMenu() {
+            document.getElementById("menu-list").classList.toggle("open");
+        }
         function concluirTreino() {
             const checkboxes = document.querySelectorAll('.card input[type="checkbox"]');
             const total = checkboxes.length;
@@ -275,11 +347,33 @@
                     class="nav-link">Natural</a></li>
         </ul>
     </nav>
-    <h1>Treino do Dia</h1>
-    <h2>
+    <nav>
+        <div class="nav-container">
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul id="menu-list">
+                <li><a th:href="@{/trainMensPhysique}"
+                        th:classappend="${selectedTipo == 'MensPhysique' ? ' active' : ''}" class="nav-link">Mens
+                        Physique</a></li>
+
+                <li><a th:href="@{/trainClassicPhysique}"
+                        th:classappend="${selectedTipo == 'ClassicPhysique' ? ' active' : ''}" class="nav-link">Classic
+                        Physique</a></li>
+
+                <li><a th:href="@{/trainopenPhysique}" th:classappend="${selectedTipo == 'Open' ? ' active' : ''}"
+                        class="nav-link">Open</a></li>
+
+                <li><a th:href="@{/trainNaturalPhysique}" th:classappend="${selectedTipo == 'Natural' ? ' active' : ''}"
+                        class="nav-link">Natural</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <h1 th:text="${descricaoTreino != null ? descricaoTreino : 'Treino do Dia'}">Treino do Dia</h1>
+    <h2>Treino do Dia</h2>
+    <h3>
         <span th:text="${diaNome}"></span> -
         <span th:text="${descricaoDia}"></span>
-    </h2>
+    </h3>
 
     <div class="treinos-container">
         <div class="grid" th:each="t : ${treinos}">

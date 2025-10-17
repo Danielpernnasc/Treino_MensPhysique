@@ -11,7 +11,7 @@ public class TrainMensPhysique implements Treinos {
 
 
     public final Map<String, List<Exercicios>> initializeTrainMensPhisique() {
-     
+        itsTrain();
           initializeRoutine();
           
           treinos.put("Segunda", Arrays.asList(
