@@ -14,10 +14,10 @@ import com.treino.model.Exercicios;
 import com.treino.service.TreinoService;
 
 @Controller
-public class TreinosController {
+public class TreinoController {
     private final TreinoService treinoService;
     @Autowired
-    public TreinosController(TreinoService treinoService) {
+    public TreinoController(TreinoService treinoService) {
         this.treinoService = treinoService;
     }
 
