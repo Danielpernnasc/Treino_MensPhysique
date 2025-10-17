@@ -61,6 +61,10 @@ public class TrainMensPhysique implements Treinos {
             new Exercicios("Encolhimento halteres", 3, "12–15", "60s", "")
         ));
 
+        treinos.put("Domingo", Arrays.asList(
+            new Exercicios("Descanso total", 0, "", "", "")
+        ));
+
         return treinos;
     }
 
